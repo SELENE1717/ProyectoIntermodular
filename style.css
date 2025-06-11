@@ -1,0 +1,68 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #fbfcfc;
+}
+.container{
+    width: 1280px;
+    margin: auto;
+    background-color: #fff;
+}
+/*barra navegacion*/
+.navbar{
+    background-color: #51a6fc;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 20px; 
+}
+.navbar li, ul{
+    display: inline-block;
+}
+
+.navbar li a{
+    color: #fff;
+    font-family: Roboto;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+#izquierda {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+#izquierda img {
+    height: 50px;
+    width: 50px;
+}
+#titulo {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0; 
+}
+
+/*para el header*/
+
+#header{
+    height:500px;
+
+}
+#slide{
+    height: 500px;
+    overflow: hidden;
+}
+
+
+
+.imgslide{
+    opacity: 0; /*AL PRINCIPIO NO TIENEN OPACIDAD*/
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    height: 500px;
+}
+
+.imgactiva{
+    opacity: 1; /* ESTA CLASE HACE QUE LA IMAGEN SE VEA*/
+}
