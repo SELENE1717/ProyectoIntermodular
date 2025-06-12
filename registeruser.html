@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/05a75ce1d7.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>Registro - Usuario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+            <nav class="navbar">
+                <div id="izquierda">
+                    <div style="text-align: center; display: inline-block;">
+                    <img src="https://images.vexels.com/media/users/3/128926/isolated/preview/c60c97eba10a56280114b19063d04655-icono-redondo-del-aeropuerto-de-avion.png">
+                    </div>
+                    <p id="titulo">Travelway</p>
+                </div>
+                <ul>
+                    <li> <a href="index.html">Home</a></li>
+                    <li> <a href="registeruser.html">Registro</a></li>
+                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="falta el link">Creación de Guías</a></li>
+                    <li> <a href="falta el link">Listados</a></li>
+                </ul>
+            </nav>
+        
+        <section id="header"> <!--Aqui voy a poner un slide-->
+            <div id="slide">
+
+                <div id="slogan"><h1>Forme parte<br> de nuestra<br> comunidad</h1></div>
+                <img src="https://i.imgur.com/tNEpq2a.png" class="imgslide">
+                <img src="https://i.imgur.com/9ZRHH4S.png" class="imgslide">
+                <img src="https://i.imgur.com/xmem9gJ.png" class="imgslide">
+                <img src="https://i.imgur.com/iVniGJu.png" class="imgslide">
+            </div>
+
+        </section>
+        
+        <div class="main">
+
+            <section id="RegistroUsuario">
+                <h2>Registrese para reservar con nosotros</h2>
+                <form action="#" method="post" id="formulario-registro">
+                    
+                    <fieldset>
+                        <legend>Datos de la cuenta:</legend>
+                        <label for="Email">Email:</label>
+                        <input type="text" name="Email" id="email">
+                        <label for="Contraseña" id="password">Contraseña</label>
+                        <input type="password" id="password" name="Contraseña">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Datos de usuario:</legend>
+                         <label for="Nombre">Nombre:</label>
+                         <input type="text" name="Nombre" id="nombre"><br>
+                         <label for="Apellidos" id="apellidos">Apellidos</label>
+                         <input type="text" id="apellidos" name="Apellidos"><br>
+                         <label for="edad">Edad</label>
+                         <input type="text" id="edad" name="edad"><br>
+                         <label for="Tienepasaporte">¿Tiene pasaporte?</label> <!-- luego con los codigos en funcion de su selección deberá añadir los demás campos o no-->
+                         <select  id="pasaporte" name="pasaporte">
+                             <option value="1">si</option>
+                             <option value="0">no</option>
+                            </select>
+                    </fieldset>
+                    <button type="submit">Registrarse</button>
+                </form>
+                <div id="registroderecha">
+                    <p>—El 99.99% de nuestros clientes están encantados de haber reservado con nosotros y haber experimentado las mejores vacaciones de sus vidas<br> ¿A qué esperas tú?—</p>
+                </div>
+            </section>
+       
+
+    </div>
+
+    <!--Aqui está el js para el slide, recemos para que vaya bien -->
+    <script> 
+
+    let indeximagenes= 0;
+
+    let slide = document.querySelectorAll('.imgslide');
+
+    function Cambiarimagen() {
+    // Eliminar la clase "active" de la imagen actual
+    slide[indeximagenes].classList.remove('imgactiva');
+
+    // Actualizar el índice de la imagen actual
+    indeximagenes = (indeximagenes + 1) % slide.length;
+
+    // Agregar la clase "active" a la siguiente imagen
+    slide[indeximagenes].classList.add('imgactiva');
+
+    
+}
+
+slide[indeximagenes].classList.add('imgactiva');
+
+    setInterval(Cambiarimagen, 5000);
+
+    </script>
+</body>
+</html>
