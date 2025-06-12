@@ -136,9 +136,45 @@ body{
     box-sizing: border-box;
     padding: 20px;
     font-family: 'Roboto';
+    height: 180px;
+    margin-top: 1px;
 }
 
 
 .opinion h3{
     text-transform: uppercase;
+}
+
+.opinion i {
+    color: #51a6fc;
+}
+
+/*ESTE ES EL ESTILO DE LA ZONA DE ¿PORQUE ELEGIR TRAVEL WAY?*/
+
+#modusoperandi h2{
+    font-family: 'Roboto';
+    text-transform: uppercase;
+}
+#panel h4 i {
+    font-weight: 900;
+    background-color: #51a6fc;
+    color: #fff;
+    padding: 8px;
+    font-size: 20px;
+    margin-right: 5px;
+    border-radius: 20px;
+}
+
+#panel{
+    border: solid 1px #51a6fc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.panel2{
+    display: inline-block;
+    width: 49%;
+    font-family: 'Roboto';
+    vertical-align: top;
 }
