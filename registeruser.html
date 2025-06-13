@@ -28,7 +28,7 @@
                 </ul>
             </nav>
         
-        <section id="header"> <!--Aqui voy a poner un slide-->
+        <section id="header"> <!--El slide no sé si cambiarlo o quitarlo para esta página -->
             <div id="slide">
 
                 <div id="slogan"><h1>Forme parte<br> de nuestra<br> comunidad</h1></div>
@@ -50,24 +50,42 @@
                         <legend>Datos de la cuenta:</legend>
                         <label for="Email">Email:</label>
                         <input type="text" name="Email" id="email">
-                        <label for="Contraseña" id="password">Contraseña</label>
+                        <div class="error" id="error-email"></div>
+                        <label for="Contraseña">Contraseña</label>
                         <input type="password" id="password" name="Contraseña">
+                        <div class="error" id="error-password"></div>
                     </fieldset>
                     <fieldset>
                         <legend>Datos de usuario:</legend>
                          <label for="Nombre">Nombre:</label>
                          <input type="text" name="Nombre" id="nombre"><br>
-                         <label for="Apellidos" id="apellidos">Apellidos</label>
+                         <div class="error" id="error-nombre"></div>
+                         <label for="Apellidos">Apellidos</label>
                          <input type="text" id="apellidos" name="Apellidos"><br>
+                         <div class="error" id="error-apellidos"></div>
                          <label for="edad">Edad</label>
                          <input type="text" id="edad" name="edad"><br>
+                         <div class="error" id="error-edad"></div>
                          <label for="Tienepasaporte">¿Tiene pasaporte?</label> <!-- luego con los codigos en funcion de su selección deberá añadir los demás campos o no-->
                          <select  id="pasaporte" name="pasaporte">
                              <option value="1">si</option>
                              <option value="0">no</option>
-                            </select>
+                        </select>
+                        <div class="error" id="error-pasaporte"></div>
                     </fieldset>
-                    <button type="submit">Registrarse</button>
+                    <fieldset>
+                        <legend> Datos pasaporte (Solo si tiene pasaporte)</legend>
+                        <label for="Numero de Pasaporte">Numero de pasaporte:</label>
+                        <input type="text" name="Numero de Pasaporte" id="numero">
+                        <div class="error" id="error-numpass"></div>
+                        <label for="Fecha de expedición">Fecha de expedición:</label>
+                        <input type="date" name="Fecha de expedición" id="fecha_expedición">
+                        <div class="error" id="error-fechaex"></div>
+                        <label for="Fecha de caducidad">Fecha de caducidad:</label>
+                        <input name="Fecha de caducidad" id="caducidad" type="date">
+                        <div class="error" id="error-caducidad"></div>
+                    </fieldset>
+                    <button id="enviar">Registrarse</button>
                 </form>
                 <div id="registroderecha">
                     <p>—El 99.99% de nuestros clientes están encantados de haber reservado con nosotros y haber experimentado las mejores vacaciones de sus vidas<br> ¿A qué esperas tú?—</p>
@@ -100,6 +118,94 @@
 slide[indeximagenes].classList.add('imgactiva');
 
     setInterval(Cambiarimagen, 5000);
+
+
+    //VALIDACIÓN JS
+        let password = document.getElementById("password");
+        let nombre = document.getElementById("nombre");
+        let apellidos = document.getElementById("apellidos");
+        let edad = document.getElementById("edad");
+        let email = document.getElementById("email");
+
+        //recogemos los divs de los errores para llamarlos en la funcion
+        let error_password = document.getElementById("error-password");
+        let error_nombre = document.getElementById("error-nombre");
+        let error_edad = document.getElementById("error-edad");
+        let error_email = document.getElementById("error-email");
+        let error_apellidos = document.getElementById("error-apellidos");
+
+        let pasaporte = document.getElementById("pasaporte");
+        let numero = document.getElementById("numero");
+        let fechaexpedicion = document.getElementById("fecha_expedicion");
+        let caducidad = document.getElementById("caducidad");
+
+        let error_pasaporte = document.getElementById("error-pasaporte");
+        let error_numpass = document.getElementById("error-numpass");
+        let error_fechaex = document.getElementById("error-fechaex");
+        let error_caducidad = document.getElementById("error-caducidad");
+
+        function validar(){ //funcion que valida el formulario
+
+            let esvalido = true;
+            if (apellidos.value.trim() ===''){
+                esvalido= false;
+                error_apellidos.textContent = "Los apellidos son obligatorios";
+            }
+            if(password.value.trim() ===''){
+                esvalido = false;
+                error_password.textContent = "El password es obligatorio";
+            }else if(password.value.trim().length < 5){
+                esvalido = false;
+                error_password.textContent ="La contraseña debe tener más de 5 letras";
+            }
+            if (nombre.value.trim() ===''){
+                esvalido= false;
+                error_nombre.textContent = "Debe completar el nombre";
+            }
+            if (edad.value.trim() === '' || parseInt(edad.value.trim()) < 18) {
+                esvalido= false;
+                error_email.textContent = "Debe ser mayor de edad";
+            }
+            if (email.value.trim() === ''){
+                esvalido= false;
+                error_edad.textContent = "Debe completar el email";
+            }
+             if (pasaporte.value !== "1" && pasaporte.value !== "0") {
+                esvalido = false;
+                error_pasaporte.textContent = "Debe seleccionar si tiene pasaporte.";
+            } 
+
+        // Si tiene pasaporte, tendrá que completar los campos obligatorios
+        if (pasaporte.value === "1") {
+            if (numero.value.trim() === '') {
+                esvalido = false;
+                error_numpass.textContent = "Debe indicar el número de pasaporte.";
+            }
+            if (fechaexpedicion.value.trim() === '') {
+                esvalido = false;
+                error_fechaex.textContent = "Debe indicar la fecha de expedición.";
+            }
+            if (caducidad.value.trim() === '') {
+                esvalido = false;
+                error_caducidad.textContent = "Debe indicar la fecha de caducidad.";
+            }
+        }
+    
+            return esvalido;
+        }
+
+
+
+         let enviar = document.getElementById('enviar');
+         let formulario_registro = document.getElementById('formulario-registro');
+
+         enviar.addEventListener('click', e=>{
+              e.preventDefault();
+            if (validar()){ //si el formulario es válido (true) lo manda
+                formulario_registro.submit();
+
+            }
+         });
 
     </script>
 </body>
