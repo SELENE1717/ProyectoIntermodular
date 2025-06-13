@@ -221,7 +221,10 @@ body{
     text-transform: uppercase;
     color: #fff;
 }
-
+.error{
+    color: red;
+    font-style: italic;
+}
 #registroderecha{
     display: inline-block;
     width: 34%;
