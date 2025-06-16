@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/05a75ce1d7.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>Formulario - Guía</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+            <nav class="navbar">
+                <div id="izquierda">
+                    <div style="text-align: center; display: inline-block;">
+                    <img src="https://images.vexels.com/media/users/3/128926/isolated/preview/c60c97eba10a56280114b19063d04655-icono-redondo-del-aeropuerto-de-avion.png">
+                    </div>
+                    <p id="titulo">Travelway</p>
+                </div>
+                <ul>
+                    <li> <a href="index.html">Home</a></li>
+                    <li> <a href="registeruser.html">Registro</a></li>
+                    <li> <a href="registeruser.html">Login</a></li>
+                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="registerguide.html">Creación de Guías</a></li>
+                    <li> <a href="falta el link">Listados</a></li>
+                </ul>
+            </nav>
+        
+        <section id="header2"> 
+            <div id="slogan"><h1 style="font-size: 80px;">Identificate</h1></div>
+           <img src="https://i.imgur.com/0gv8Q7E.png"/>
+        </section>
+        
+        <div class="main">
+
+            <section id="Formularioguia">
+                <form action="#" method="post" id="formulario-login">
+                    
+                    <fieldset>
+                        <legend>Iniciar sesión</legend>
+                         <label for="email">Email:</label>
+                         <input type="text" name="email" id="email"><br>
+                         <div class="error" id="error-email"></div>
+                         <label for="Contraseña">Contraseña</label>
+                         <input type="password" id="password" name="Contraseña"><br>
+                        <div class="error" id="error-password"></div>
+                    </fieldset>
+                    <button id="enviar">Iniciar sesión</button>
+                </form>
+            </section>
+       
+
+    </div>
+
+    <script> 
+
+    //VALIDACIÓN JS
+        let email = document.getElementById("email");
+        let password = document.getElementById("password");
+
+        //recogemos los divs de los errores para llamarlos en la funcion
+        let error_email = document.getElementById("error-email");
+        let error_password = document.getElementById("error-password");
+
+
+        function validar(){ //funcion que valida el formulario
+
+            let esvalido = true;
+            if (email.value.trim() ===''){
+                esvalido= false;
+                error_email.textContent = "Debe completar el campo de email";
+            }
+            if (password.value.trim() ===''){
+                esvalido= false;
+                error_password.textContent = "Debe completar el campo de contraseña";
+            }
+        }
+
+
+
+         let enviar = document.getElementById('enviar');
+         let formulario_guia= document.getElementById('formulario-guia');
+
+         enviar.addEventListener('click', e=>{
+              e.preventDefault();
+            if (validar()){ //si el formulario es válido (true) lo manda
+                formulario_guia.submit();
+
+            }
+         });
+
+    </script>
+    <!--Estaba pensando que igual tenemos que poner algún footer?-->
+</body>
+</html>
