@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/05a75ce1d7.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>Registro - Usuario</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+            <nav class="navbar">
+                <div id="izquierda">
+                    <div style="text-align: center; display: inline-block;">
+                    <img src="https://images.vexels.com/media/users/3/128926/isolated/preview/c60c97eba10a56280114b19063d04655-icono-redondo-del-aeropuerto-de-avion.png">
+                    </div>
+                    <p id="titulo">Travelway</p>
+                </div>
+                <ul>
+                    <li> <a href="index.html">Home</a></li>
+                    <li> <a href="registeruser.html">Registro</a></li>
+                    <li> <a href="login.html">Login</a></li>
+                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="registerguide.html">Creación de Guías</a></li>
+                    <li> <a href="falta el link">Listados</a></li>
+                </ul>
+            </nav>
+        
+        <section id="header2"> <!--El slide no sé si cambiarlo o quitarlo para esta página -->
+
+                <div id="slogan"><h1>Forme parte<br> de nuestra<br> comunidad</h1></div>
+                <img src="https://i.imgur.com/mWBsDSt.png"/>
+
+        </section>
+        
+        <div class="main">
+
+            <section id="FormularioSuscripcion">
+                <h2>Suscribirse a un destino</h2>
+
+                <form action="#" method="post" id="formulario-suscripcion">
+                    <fieldset>
+                        <legend>Datos de suscripción:</legend>
+
+                        <label for="email-suscripcion">Email:</label>
+                        <input type="text" name="email" id="email-suscripcion">
+                        <div class="error" id="error-email-suscripcion"></div>
+
+                        <label for="destino">Destino:</label>
+                        <select name="destino" id="destino">
+                            <option value="">-- Seleccione un destino --</option>
+                            <option value="madrid-españa">Madrid - España</option>
+                            <option value="paris-francia">París - Francia</option>
+                            <option value="tokio-japon">Tokio - Japón</option>
+                            <!-- Cargar valores dinámicamente -->
+                        </select>
+                        <div class="error" id="error-destino"></div>
+                    </fieldset>
+
+                    <button id="btn-suscribir">Suscribirse</button>
+                </form>
+
+                <div id="registroderecha">
+                    <p>—Recibe notificaciones y ofertas especiales de tus destinos favoritos—</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        let emailSuscripcion = document.getElementById("email-suscripcion");
+        let destino = document.getElementById("destino");
+        let errorEmailSuscripcion = document.getElementById("error-email-suscripcion");
+        let errorDestino = document.getElementById("error-destino");
+        let btnSuscribir = document.getElementById("btn-suscribir");
+        let formularioSuscripcion = document.getElementById("formulario-suscripcion");
+
+        function validarSuscripcion() {
+            let esValido = true;
+
+            errorEmailSuscripcion.textContent = "";
+            errorDestino.textContent = "";
+
+            if (emailSuscripcion.value.trim() === '') {
+                esValido = false;
+                errorEmailSuscripcion.textContent = "Debe ingresar un email.";
+            } else if (!emailSuscripcion.value.includes("@")) {
+                esValido = false;
+                errorEmailSuscripcion.textContent = "Email no válido.";
+            }
+
+            if (destino.value === "") {
+                esValido = false;
+                errorDestino.textContent = "Debe seleccionar un destino.";
+            }
+
+            return esValido;
+        }
+
+        btnSuscribir.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (validarSuscripcion()) {
+                formularioSuscripcion.submit();
+            }
+        });
+    </script>
+</body>
+</html>

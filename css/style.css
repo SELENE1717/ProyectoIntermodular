@@ -24,7 +24,10 @@ body{
     color: #fff;
     font-family: Roboto;
     text-decoration: none;
-    font-weight: 800;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin: 3px;
 }
 
 #izquierda {
@@ -49,6 +52,30 @@ body{
     height:500px;
 
 }
+
+#header2{
+    height:400px;
+}
+
+#slogan{
+    position: absolute;
+    z-index: 1;
+    color: #fff;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-size: 40px;
+    text-align: left;
+    padding: 30px;
+    
+}
+
+#header2 #slogan{
+    background: rgba(48, 92, 135, 0.5);
+    height: 400px;
+    box-sizing: border-box;
+    width: 1280px;
+}
+
 #slide{
     height: 500px;
     overflow: hidden;
@@ -65,4 +92,182 @@ body{
 
 .imgactiva{
     opacity: 1; /* ESTA CLASE HACE QUE LA IMAGEN SE VEA*/
+}
+/*div que encierra todas las secciones*/
+
+.main{
+    padding: 20px;
+}
+/*Para la seccion about*/
+
+#left {
+    width: 60%;
+    font-family: 'Roboto';
+    font-size: 17px;
+    text-align: justify;
+    background-color: #51a6fc;
+    padding: 20px;
+    border-radius: 20px;
+    color: #fff;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+
+#left h2{
+    text-transform: uppercase;
+}
+
+#left h3{
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+#right{
+    display: inline-block;
+    width: 39%;
+    overflow: hidden;
+    border-radius: 20px;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+/*seccion de opiniones*/
+#opiniones h2  {
+    color: #51a6fc;
+    font-family: 'Roboto';
+    text-align: right;
+    text-transform: uppercase;
+}
+.opinion {
+    display: inline-block;
+    width: 24%;
+    border-radius: 20px;
+    background-color: #fbfcfc;
+    text-align: center;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding: 20px;
+    font-family: 'Roboto';
+    height: 180px;
+    margin-top: 1px;
+}
+
+
+.opinion h3{
+    text-transform: uppercase;
+}
+
+.opinion i {
+    color: #51a6fc;
+}
+
+/*ESTE ES EL ESTILO DE LA ZONA DE ¿PORQUE ELEGIR TRAVEL WAY?*/
+
+#modusoperandi h2, #RegistroUsuario h2{
+    font-family: 'Roboto';
+    text-transform: uppercase;
+}
+#panel h4 i {
+    font-weight: 900;
+    background-color: #51a6fc;
+    color: #fff;
+    padding: 8px;
+    font-size: 20px;
+    margin-right: 5px;
+    border-radius: 20px;
+}
+
+#panel{
+    border: solid 1px #51a6fc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.panel2{
+    display: inline-block;
+    width: 49%;
+    font-family: 'Roboto';
+    vertical-align: top;
+}
+
+
+/*REGISTRO USUARIO*/
+
+#RegistroUsuario, #Formularioguia{
+    font-family: 'Roboto';
+}
+#formulario-registro, #formulario-guia{
+   width: 65%;
+   display: inline-block;
+}
+#formulario-registro label, input{
+    display: block;
+}
+
+#formulario-registro fieldset, #formulario-guia fieldset, #formulario-login fieldset{
+    background: #fbfcfc;
+    padding: 30px;
+    border-radius: 20px;
+    border: 0px;
+}
+
+#formulario-registro input, select, #formulario-guia input, #formulario-login input{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #b2b2b2;
+    width: 100%;
+    min-height: 20px;
+}
+
+#formulario-registro label, #formulario-guia label, #formulario-login label{
+    color: #7e7c7c;
+}
+
+#formulario-registro legend, #formulario-guia legend, #formulario-login legend{
+    padding: 5px;
+    background-color: #51a6fc;
+    /* border: 1px solid; */
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+#enviar{
+    color: #305c87;
+    text-transform: uppercase;
+    padding: 10px;
+    font-weight: 800;
+    border-radius: 20px;
+    font-family: 'Roboto';
+    border: 0px;
+}
+
+
+.error{
+    color: red;
+    font-style: italic;
+}
+#registroderecha{
+    display: inline-block;
+    width: 34%;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding: 30px;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-size: 30px;
+    background-color: #305c87;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 800;
+    min-height: 536px;
+}
+
+
+
+#Formularioguia #registroderecha{
+    min-height: auto;
+    font-size: 28px;
 }

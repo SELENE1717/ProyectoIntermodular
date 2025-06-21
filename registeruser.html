@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/05a75ce1d7.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>Registro - Usuario</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+            <nav class="navbar">
+                <div id="izquierda">
+                    <div style="text-align: center; display: inline-block;">
+                    <img src="https://images.vexels.com/media/users/3/128926/isolated/preview/c60c97eba10a56280114b19063d04655-icono-redondo-del-aeropuerto-de-avion.png">
+                    </div>
+                    <p id="titulo">Travelway</p>
+                </div>
+                <ul>
+                    <li> <a href="index.html">Home</a></li>
+                    <li> <a href="registeruser.html">Registro</a></li>
+                    <li> <a href="login.html">Login</a></li>
+                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="registerguide.html">Creación de Guías</a></li>
+                    <li> <a href="falta el link">Listados</a></li>
+                </ul>
+            </nav>
+        
+        <section id="header2"> <!--El slide no sé si cambiarlo o quitarlo para esta página -->
+
+                <div id="slogan"><h1>Forme parte<br> de nuestra<br> comunidad</h1></div>
+                <img src="https://i.imgur.com/mWBsDSt.png"/>
+
+        </section>
+        
+        <div class="main">
+
+            <section id="RegistroUsuario">
+                <h2>Registrese para reservar con nosotros</h2>
+                <form action="#" method="post" id="formulario-registro">
+                    
+                    <fieldset>
+                        <legend>Datos de la cuenta:</legend>
+                        <label for="Email">Email:</label>
+                        <input type="text" name="Email" id="email">
+                        <div class="error" id="error-email"></div>
+                        <label for="Contraseña">Contraseña</label>
+                        <input type="password" id="password" name="Contraseña">
+                        <div class="error" id="error-password"></div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Datos de usuario:</legend>
+                         <label for="Nombre">Nombre:</label>
+                         <input type="text" name="Nombre" id="nombre"><br>
+                         <div class="error" id="error-nombre"></div>
+                         <label for="Apellidos">Apellidos</label>
+                         <input type="text" id="apellidos" name="Apellidos"><br>
+                         <div class="error" id="error-apellidos"></div>
+                         <label for="edad">Edad</label>
+                         <input type="text" id="edad" name="edad"><br>
+                         <div class="error" id="error-edad"></div>
+                         <label for="Tienepasaporte">¿Tiene pasaporte?</label> <!-- luego con los codigos en funcion de su selección deberá añadir los demás campos o no-->
+                         <select  id="pasaporte" name="pasaporte">
+                             <option value="1">si</option>
+                             <option value="0">no</option>
+                        </select>
+                        <div class="error" id="error-pasaporte"></div>
+                    </fieldset>
+                    <fieldset>
+                        <legend> Datos pasaporte (Solo si tiene pasaporte)</legend>
+                        <label for="Numero de Pasaporte">Numero de pasaporte:</label>
+                        <input type="text" name="Numero de Pasaporte" id="numero">
+                        <div class="error" id="error-numpass"></div>
+                        <label for="Fecha de expedición">Fecha de expedición:</label>
+                        <input type="date" name="Fecha de expedición" id="fecha_expedición">
+                        <div class="error" id="error-fechaex"></div>
+                        <label for="Fecha de caducidad">Fecha de caducidad:</label>
+                        <input name="Fecha de caducidad" id="caducidad" type="date">
+                        <div class="error" id="error-caducidad"></div>
+                    </fieldset>
+                    <button id="enviar">Registrarse</button>
+                </form>
+                <div id="registroderecha">
+                    <p>—El 99.99% de nuestros clientes están encantados de haber reservado con nosotros y haber experimentado las mejores vacaciones de sus vidas<br> ¿A qué esperas tú?—</p>
+                </div>
+            </section>
+       
+
+    </div>
+
+    <script> 
+
+
+
+    //VALIDACIÓN JS
+        let password = document.getElementById("password");
+        let nombre = document.getElementById("nombre");
+        let apellidos = document.getElementById("apellidos");
+        let edad = document.getElementById("edad");
+        let email = document.getElementById("email");
+
+        //recogemos los divs de los errores para llamarlos en la funcion
+        let error_password = document.getElementById("error-password");
+        let error_nombre = document.getElementById("error-nombre");
+        let error_edad = document.getElementById("error-edad");
+        let error_email = document.getElementById("error-email");
+        let error_apellidos = document.getElementById("error-apellidos");
+
+        let pasaporte = document.getElementById("pasaporte");
+        let numero = document.getElementById("numero");
+        let fechaexpedicion = document.getElementById("fecha_expedicion");
+        let caducidad = document.getElementById("caducidad");
+
+        let error_pasaporte = document.getElementById("error-pasaporte");
+        let error_numpass = document.getElementById("error-numpass");
+        let error_fechaex = document.getElementById("error-fechaex");
+        let error_caducidad = document.getElementById("error-caducidad");
+
+        function validar(){ //funcion que valida el formulario
+
+            let esvalido = true;
+            if (apellidos.value.trim() ===''){
+                esvalido= false;
+                error_apellidos.textContent = "Los apellidos son obligatorios";
+            }
+            if(password.value.trim() ===''){
+                esvalido = false;
+                error_password.textContent = "El password es obligatorio";
+            }else if(password.value.trim().length < 5){
+                esvalido = false;
+                error_password.textContent ="La contraseña debe tener más de 5 letras";
+            }
+            if (nombre.value.trim() ===''){
+                esvalido= false;
+                error_nombre.textContent = "Debe completar el nombre";
+            }
+            if (edad.value.trim() === '' || parseInt(edad.value.trim()) < 18) {
+                esvalido= false;
+                error_email.textContent = "Debe ser mayor de edad";
+            }
+            if (email.value.trim() === ''){
+                esvalido= false;
+                error_edad.textContent = "Debe completar el email";
+            }
+             if (pasaporte.value !== "1" && pasaporte.value !== "0") {
+                esvalido = false;
+                error_pasaporte.textContent = "Debe seleccionar si tiene pasaporte.";
+            } 
+
+        // Si tiene pasaporte, tendrá que completar los campos obligatorios
+        if (pasaporte.value === "1") {
+            if (numero.value.trim() === '') {
+                esvalido = false;
+                error_numpass.textContent = "Debe indicar el número de pasaporte.";
+            }
+            if (fechaexpedicion.value.trim() === '') {
+                esvalido = false;
+                error_fechaex.textContent = "Debe indicar la fecha de expedición.";
+            }
+            if (caducidad.value.trim() === '') {
+                esvalido = false;
+                error_caducidad.textContent = "Debe indicar la fecha de caducidad.";
+            }
+        }
+    
+            return esvalido;
+        }
+
+
+
+         let enviar = document.getElementById('enviar');
+         let formulario_registro = document.getElementById('formulario-registro');
+
+         enviar.addEventListener('click', e=>{
+              e.preventDefault();
+            if (validar()){ //si el formulario es válido (true) lo manda
+                formulario_registro.submit();
+
+            }
+         });
+
+    </script>
+</body>
+</html>
