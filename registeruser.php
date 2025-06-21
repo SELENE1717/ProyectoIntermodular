@@ -1,3 +1,116 @@
+<?php
+session_start();
+include 'database.php';
+
+$errors = [];
+//en el momento de pulsar el botón de register 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+    $nombre =trim($_POST['nombre']);
+    $apellidos = trim($_POST['apellidos']);
+    $edad = trim ($_POST['edad']);
+    $tienePasaporte = $_POST['pasaporte'] ?? null;
+
+
+  //Validación
+    if (empty($email)) {
+        $errors[] = "Se requiere un email";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format";
+    }
+
+    if (empty($password)) {
+        $errors[] = "Se requiere una contraseña";
+    } elseif (strlen($password) < 5) {
+        $errors[] = "La contraseña debe tener al menos 5 caracteres";
+    }
+
+    if(empty($nombre)){
+    $errors[]="Se debe completar el nombre";
+    }  
+
+    if(empty($apellidos)){
+    $errors[]="Se debe completar los apellidos";
+    }
+
+
+    
+    
+    if (empty($edad)) {
+        $errors[] = "Se debe especificar una edad";
+    } elseif (!is_numeric($edad) || (int)$edad < 18) {
+        $errors[] = "Debe ser mayor de edad";
+    }
+
+    if (!isset($tienePasaporte) || ($tienePasaporte !== "1" && $tienePasaporte !== "0")) {
+        $errors[] = "Debe indicar si tiene pasaporte";
+    }
+
+    // Validar datos de pasaporte si corresponde
+    $numeroPasaporte = $fechaExpedicion = $fechaCaducidad = null;
+
+    if ($tienePasaporte === "1") { //como no funcione me tiro por la ventana
+        $numeroPasaporte = trim($_POST['numero_pasaporte'] ?? '');
+        $fechaExpedicion = trim($_POST['fecha_expedicion'] ?? '');
+        $fechaCaducidad = trim($_POST['fecha_caducidad'] ?? '');
+
+        if (empty($numeroPasaporte)) {
+            $errors[] = "Debe indicar el número de pasaporte";
+        }
+
+        if (empty($fechaExpedicion)) {
+            $errors[] = "Debe indicar la fecha de expedición del pasaporte";
+        }
+
+        if (empty($fechaCaducidad)) {
+            $errors[] = "Debe indicar la fecha de caducidad del pasaporte";
+        } elseif ($fechaExpedicion && $fechaCaducidad <= $fechaExpedicion) {
+            $errors[] = "La fecha de caducidad debe ser posterior a la de expedición";
+        }
+    }
+
+
+    // que el email exista
+    $stmt = $pdo->prepare("SELECT * FROM USUARIOS WHERE email = ?");
+    $stmt->execute([$email]);
+    if ($stmt->rowCount() > 0) {
+        $errors[] = "El email ya existe";
+    }
+
+       if (empty($errors)) {
+        try {
+            $pdo->beginTransaction();
+
+            // Insertar usuario
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("INSERT INTO USUARIOS (email, password, nombre, apellidos, edad) 
+                                   VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$email, $hashed_password, $nombre, $apellidos, $edad]);
+
+            $id_usuario = $pdo->lastInsertId();
+
+            // Si tiene pasaporte, insertar en PASAPORTE
+            if ($tienePasaporte === "1") {
+                $stmt = $pdo->prepare("INSERT INTO PASAPORTE (numero, fecha_expedicion, caducidad, id_usuario)
+                                       VALUES (?, ?, ?, ?)");
+                $stmt->execute([$numeroPasaporte, $fechaExpedicion, $fechaCaducidad, $id_usuario]);
+            }
+
+            $pdo->commit();
+
+            $_SESSION['success'] = "El registro ha sido completado con éxito. Por favor, inicie sesión.";
+            header("Location: login.php");
+            exit;
+
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $errors[] = "Error en el registro: " . $e->getMessage();
+        }
+    }
+
+}
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -20,11 +133,11 @@
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.html">Home</a></li>
-                    <li> <a href="registeruser.html">Registro</a></li>
-                    <li> <a href="login.html">Login</a></li>
+                    <li> <a href="index.php">Home</a></li>
+                    <li> <a href="registeruser.php">Registro</a></li>
+                    <li> <a href="login.php">Login</a></li>
                     <li> <a href="falta el link">Creación de Destino</a></li>
-                    <li> <a href="registerguide.html">Creación de Guías</a></li>
+                    <li> <a href="registerguide.php">Creación de Guías</a></li>
                     <li> <a href="falta el link">Listados</a></li>
                 </ul>
             </nav>
@@ -40,24 +153,34 @@
 
             <section id="RegistroUsuario">
                 <h2>Registrese para reservar con nosotros</h2>
+
+                 
+                <?php if (!empty($errors)): ?>
+                    <div class="alert alert-danger">
+                        <?php foreach ($errors as $error): ?>
+                            <p><?= htmlspecialchars($error) ?></p>
+                        <?php endforeach; ?> <!--en este parrafo se colocan los errores detectados por parte del servidor -->
+                         </div>
+                 <?php endif; ?>
+
                 <form action="#" method="post" id="formulario-registro">
                     
                     <fieldset>
                         <legend>Datos de la cuenta:</legend>
-                        <label for="Email">Email:</label>
-                        <input type="text" name="Email" id="email">
+                        <label for="email">Email:</label>
+                        <input type="text" name="email" id="email">
                         <div class="error" id="error-email"></div>
-                        <label for="Contraseña">Contraseña</label>
-                        <input type="password" id="password" name="Contraseña">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password">
                         <div class="error" id="error-password"></div>
                     </fieldset>
                     <fieldset>
                         <legend>Datos de usuario:</legend>
-                         <label for="Nombre">Nombre:</label>
-                         <input type="text" name="Nombre" id="nombre"><br>
+                         <label for="nombre">Nombre:</label>
+                         <input type="text" name="nombre" id="nombre"><br>
                          <div class="error" id="error-nombre"></div>
-                         <label for="Apellidos">Apellidos</label>
-                         <input type="text" id="apellidos" name="Apellidos"><br>
+                         <label for="apellidos">Apellidos</label>
+                         <input type="text" id="apellidos" name="apellidos"><br>
                          <div class="error" id="error-apellidos"></div>
                          <label for="edad">Edad</label>
                          <input type="text" id="edad" name="edad"><br>
@@ -71,14 +194,14 @@
                     </fieldset>
                     <fieldset>
                         <legend> Datos pasaporte (Solo si tiene pasaporte)</legend>
-                        <label for="Numero de Pasaporte">Numero de pasaporte:</label>
-                        <input type="text" name="Numero de Pasaporte" id="numero">
+                        <label for="numero_pasaporte">Numero de pasaporte:</label>
+                        <input type="text" name="numero_pasaporte" id="numero"> <!--he arreglado los nombres de los inputs porque estaban mal puestos-->
                         <div class="error" id="error-numpass"></div>
-                        <label for="Fecha de expedición">Fecha de expedición:</label>
-                        <input type="date" name="Fecha de expedición" id="fecha_expedición">
+                        <label for="fecha_expedicion">Fecha de expedición:</label>
+                        <input type="date" name="fecha_expedicion" id="fecha_expedicion">
                         <div class="error" id="error-fechaex"></div>
-                        <label for="Fecha de caducidad">Fecha de caducidad:</label>
-                        <input name="Fecha de caducidad" id="caducidad" type="date">
+                        <label for="fecha_caducidad">Fecha de caducidad:</label>
+                        <input name="fecha_caducidad" id="caducidad" type="date">
                         <div class="error" id="error-caducidad"></div>
                     </fieldset>
                     <button id="enviar">Registrarse</button>
@@ -139,11 +262,11 @@
             }
             if (edad.value.trim() === '' || parseInt(edad.value.trim()) < 18) {
                 esvalido= false;
-                error_email.textContent = "Debe ser mayor de edad";
+                error_edad.textContent = "Debe ser mayor de edad";
             }
             if (email.value.trim() === ''){
                 esvalido= false;
-                error_edad.textContent = "Debe completar el email";
+                error_email.textContent = "Debe completar el email";
             }
              if (pasaporte.value !== "1" && pasaporte.value !== "0") {
                 esvalido = false;
@@ -156,13 +279,13 @@
                 esvalido = false;
                 error_numpass.textContent = "Debe indicar el número de pasaporte.";
             }
-            if (fechaexpedicion.value.trim() === '') {
+            if (fecha_expedicion.value.trim() === '') {
                 esvalido = false;
-                error_fechaex.textContent = "Debe indicar la fecha de expedición.";
+                error_fechaex.textContent = "Debe indicar la fecha de expedición."; //esto estaba mal puesto lo he arreglado
             }
             if (caducidad.value.trim() === '') {
                 esvalido = false;
-                error_caducidad.textContent = "Debe indicar la fecha de caducidad.";
+                error_caducidad.textContent = "Debe indicar la fecha de caducidad."; //quiero poner que la fecha de caducidad no pueda ser anterior a la vieja, luego lo cambio
             }
         }
     
@@ -185,3 +308,5 @@
     </script>
 </body>
 </html>
+
+
