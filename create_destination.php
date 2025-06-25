@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'database.php';
 
 $mensaje = '';
@@ -8,27 +9,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pais = $_POST['pais'];
     $requiere = $_POST['requiere_pasaporte'];
 
-    if (!empty($ciudad) && !empty($pais) && ($requiere === "0" || $requiere === "1")) {
-        $stmt = $pdo->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (:ciudad, :pais, :requiere)");
-        $stmt->execute([
-            ':ciudad' => $ciudad,
-            ':pais' => $pais,
-            ':requiere' => $requiere
-        ]);
+    $stmt = $pdo->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (?, ?, ?)");
+    $stmt->execute([$ciudad, $pais, $requiere]);
 
-        $mensaje = "Destino creado correctamente.";
-    } else {
-        $mensaje = "Todos los campos son obligatorios.";
-    }
+    $mensaje = "Destino creado correctamente.";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Crear Destino</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -43,11 +38,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li> <a href="index.php">Home</a></li>
             <li> <a href="registeruser.php">Registro</a></li>
             <li> <a href="login.php">Login</a></li>
-            <li> <a href="crear_destino.php">Creación de Destino</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
-            <li> <a href="listado_destinos.php">Listados</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
         </ul>
     </nav>
+    <section id="header2"> 
+            <div id="slogan"><h1 style="font-size: 80px;">Sugierenos<br> un destino</h1></div>
+           <img src="https://i.imgur.com/dlUCxvF.png"/>
+    </section>
 
     <div class="main">
         <section id="RegistroUsuario">
