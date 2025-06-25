@@ -1,12 +1,12 @@
 <?php
-include 'conexion.php';
+session_start();
+include 'database.php';
 
 // Obtener todos los destinos
 $destinos = [];
-$res = $conexion->query("SELECT ciudad, pais, requiere_pasaporte FROM DESTINO");
-while ($fila = $res->fetch_assoc()) {
-    $destinos[] = $fila;
-}
+$res = $pdo->query("SELECT ciudad, pais, requiere_pasaporte FROM DESTINO");
+$destinos = $res->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -60,6 +60,10 @@ while ($fila = $res->fetch_assoc()) {
             </div>
         </section>
     </div>
+</div>
+</body>
+</html>
+
 </div>
 </body>
 </html>
