@@ -1,3 +1,67 @@
+<?php
+session_start();
+include 'database.php'; 
+
+$errors = [];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellidos = trim($_POST['apellidos'] ?? '');
+    $especialidad = trim($_POST['especialidad'] ?? '');
+    $destino = trim($_POST['destino'] ?? '');
+    if (empty($nombre)) {
+        $errors[] = "Debe completar el nombre";
+    }
+
+    if (empty($apellidos)) {
+        $errors[] = "Debe completar los apellidos";
+    }
+
+
+    if (empty($especialidad)) {
+    $errors[] = "Debe seleccionar una especialidad";
+    }
+
+    if (empty($destino)) {
+        $errors[] = "Debe especificar un destino";
+    }
+    
+$destino_nombre = trim($_POST['destino'] ?? '');
+
+if (empty($destino_nombre)) {
+    $errors[] = "Debe completar el destino";
+} else {
+
+    $stmt = $pdo->prepare("SELECT id_destino FROM DESTINOS WHERE nombre LIKE ?"); //como aun no henos hecho la parte php de destinos no sé si furula.
+    $stmt->execute([$destino_nombre]);
+    $destino_row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$destino_row) {
+        $errors[] = "El destino especificado no existe";
+    } else {
+        $id_destino = $destino_row['id_destino'];
+    }
+}
+
+
+    if (empty($errors)) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO GUIA (nombre, apellidos, especialidad)  VALUES (?, ?, ?, ?)");
+            $stmt->execute([$nombre, $apellidos, $especialidad, $id_destino]);
+
+            $stmt = $pdo->prepare("INSERT INTO SE_ASIGNA (id_destino, id_guia) VALUES (?, ?)");
+            $stmt->execute([$id_destino, $id_guia]);
+
+            $_SESSION['success'] = "Guía registrado con éxito.";
+            header("Location: registerguide.html"); 
+            exit;
+
+        } catch (Exception $e) {
+            $errors[] = "Error al insertar guía: " . $e->getMessage();
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -20,12 +84,14 @@
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.html">Home</a></li>
-                    <li> <a href="registeruser.html">Registro</a></li>
-                    <li> <a href="login.html">Login</a></li>
-                    <li> <a href="falta el link">Creación de Destino</a></li>
-                    <li> <a href="registerguide.html">Creación de Guías</a></li>
-                    <li> <a href="falta el link">Listados</a></li>
+            <li> <a href="index.php">Home</a></li>
+            <li> <a href="registeruser.php">Registro</a></li>
+            <li> <a href="login.php">Login</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
+            <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a><li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
                 </ul>
             </nav>
         
@@ -38,18 +104,32 @@
 
             <section id="Formularioguia">
                 <h2>¿Es un guía? Complete este formulario para colaborar con nosotros</h2>
+                 <?php if (!empty($errors)): ?>
+                    <div class="alert alert-danger">
+                        <?php foreach ($errors as $error): ?>
+                            <p><?= htmlspecialchars($error) ?></p>
+                        <?php endforeach; ?> <!--en este parrafo se colocan los errores detectados por parte del servidor -->
+                        </div>
+                 <?php endif; ?>
+                        <!--si se ve mal igual lo muevo mas abajo-->
                 <form action="#" method="post" id="formulario-guia">
                     
                     <fieldset>
                         <legend>Datos del guía</legend>
-                         <label for="Nombre">Nombre:</label>
-                         <input type="text" name="Nombre" id="nombre"><br>
+                         <label for="nombre">Nombre:</label>
+                         <input type="text" name="nombre" id="nombre"><br>
                          <div class="error" id="error-nombre"></div>
-                         <label for="Apellidos">Apellidos</label>
-                         <input type="text" id="apellidos" name="Apellidos"><br>
+                         <label for="apellidos">Apellidos</label>
+                         <input type="text" id="apellidos" name="apellidos"><br>
                          <div class="error" id="error-apellidos"></div>
-                         <label for="especialidad">Edad</label>
-                         <input type="text" id="especialidad" name="especialidad"><br>
+                         <label for="especialidad">Especialidad</label><!--sin querer en la version html dejé aqui edad, aqui lo corrijo-->
+                         <select id="especialidad" name="especialidad"><!--tras volver a leer bien la base de datos me di cuenta de que esto tenia que ser un select porque da opciones prefijadas-->
+                            <option value="">-- Selecciona una opción --</option>
+                            <option value="Geografía">Geografía</option>
+                            <option value="Historia">Historia</option>
+                            <option value="Arquitectura">Arquitectura</option>
+                            <option value="Comida">Comida</option>
+                         </select><br>
                          <div class="error" id="error-especialidad"></div>
                          <label for="destino">Destino</label>
                          <input type="text" id="destino" name="destino"><br> <!--Cuando lo pasemos a php miramos como conectamos -->
@@ -92,11 +172,13 @@
             }
             if (especialidad.value.trim() === ''){
                 esvalido= false;
-                error_especialidad.textContent = "Debe completar la especialidad";
+                error_especialidad.textContent = "Debe seleccionar la especialidad";
             }if (destino.value.trim() === ''){
                 esvalido= false;
                 error_destino.textContent = "Debe completar el destino";
             }
+
+            return esvalido;
         }
 
 
@@ -106,13 +188,12 @@
 
          enviar.addEventListener('click', e=>{
               e.preventDefault();
-            if (validar()){ //si el formulario es válido (true) lo manda
+            if (validar()){ 
                 formulario_guia.submit();
 
             }
          });
 
     </script>
-    <!--Estaba pensando que igual tenemos que poner algún footer?-->
 </body>
 </html>
