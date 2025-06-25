@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li> <a href="index.php">Home</a></li>
                     <li> <a href="registeruser.php">Registro</a></li>
                     <li> <a href="login.php">Login</a></li>
-                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="create_destination.php">Creación de Destino</a></li>
                     <li> <a href="registerguide.php">Creación de Guías</a></li>
                     <li> <a href="falta el link">Listados</a></li>
                 </ul>

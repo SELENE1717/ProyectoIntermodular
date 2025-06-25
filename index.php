@@ -23,7 +23,7 @@
                     <li> <a href="index.html">Home</a></li>
                     <li> <a href="registeruser.html">Registro</a></li>
                     <li> <a href="login.html">Login</a></li>
-                    <li> <a href="falta el link">Creación de Destino</a></li>
+                    <li> <a href="create_destination.php">Creación de Destino</a></li>
                     <li> <a href="registerguide.html">Creación de Guías</a></li>
                     <li> <a href="falta el link">Listados</a></li>
                 </ul>
