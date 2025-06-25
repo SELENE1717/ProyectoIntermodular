@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'database.php';
 
 $mensaje = '';
@@ -8,9 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pais = $_POST['pais'];
     $requiere = $_POST['requiere_pasaporte'];
 
-    $stmt = $conexion->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $ciudad, $pais, $requiere);
-    $stmt->execute();
+    $stmt = $pdo->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (?, ?, ?)");
+    $stmt->execute([$ciudad, $pais, $requiere]);
 
     $mensaje = "Destino creado correctamente.";
 }
