@@ -1,22 +1,29 @@
 <?php
 include 'database.php';
+session_start();
 
 $mensaje = '';
 $destinos = [];
+$usuarios = [];
 
-$res = $conexion->query("SELECT id_destino, ciudad, pais FROM DESTINO");
-while ($fila = $res->fetch_assoc()) {
-    $destinos[] = $fila;
-}
+// Obtener destinos
+$res = $pdo->query("SELECT id_destino, ciudad, pais FROM DESTINO");
+$destinos = $res->fetchAll(PDO::FETCH_ASSOC);
 
+// Obtener usuarios
+$res2 = $pdo->query("SELECT id_usuario, email FROM USUARIOS");
+$usuarios = $res2->fetchAll(PDO::FETCH_ASSOC);
+
+// Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+    $id_usuario = $_POST['id_usuario'];
     $id_destino = $_POST['id_destino'];
-    $fecha = date('Y-m-d');
 
-    $stmt = $conexion->prepare("INSERT INTO SUSCRIPCION_DESTINO (email, id_destino, fecha_suscripcion) VALUES (?, ?, ?)");
-    $stmt->bind_param("sis", $email, $id_destino, $fecha);
-    $stmt->execute();
+    $stmt = $pdo->prepare("INSERT INTO SE_SUSCRIBE (id_usuario, id_destino) VALUES (:id_usuario, :id_destino)");
+    $stmt->execute([
+        ':id_usuario' => $id_usuario,
+        ':id_destino' => $id_destino
+    ]);
 
     $mensaje = "Suscripción registrada correctamente.";
 }
@@ -25,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Suscripción a Destino</title>
+    <title>Suscribirse a Destino</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -41,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li> <a href="index.php">Home</a></li>
             <li> <a href="registeruser.php">Registro</a></li>
             <li> <a href="login.php">Login</a></li>
-            <li> <a href="create_destination.php">Creación de Destino</a></li>
+            <li> <a href="crear_destino.php">Creación de Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
-            <li> <a href="#">Listados</a></li>
+            <li> <a href="listado_destinos.php">Listados</a></li>
         </ul>
     </nav>
 
@@ -52,8 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="#" method="post" id="formulario-suscripcion">
                 <fieldset>
                     <legend>Suscribirse a destino</legend>
-                    <label>Email:</label>
-                    <input type="text" name="email"><br>
+                    <label>Usuario (email):</label>
+                    <select name="id_usuario">
+                        <option value="">-- Seleccione un usuario --</option>
+                        <?php foreach ($usuarios as $u): ?>
+                            <option value="<?= $u['id_usuario'] ?>">
+                                <?= htmlspecialchars($u['email']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select><br>
                     <label>Destino:</label>
                     <select name="id_destino">
                         <option value="">-- Seleccione un destino --</option>

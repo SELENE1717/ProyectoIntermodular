@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'database.php';
 
 $mensaje = '';
@@ -9,12 +8,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pais = $_POST['pais'];
     $requiere = $_POST['requiere_pasaporte'];
 
-    $stmt = $pdo->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (?, ?, ?)");
-    $stmt->execute([$ciudad, $pais, $requiere]);
+    if (!empty($ciudad) && !empty($pais) && ($requiere === "0" || $requiere === "1")) {
+        $stmt = $pdo->prepare("INSERT INTO DESTINO (ciudad, pais, requiere_pasaporte) VALUES (:ciudad, :pais, :requiere)");
+        $stmt->execute([
+            ':ciudad' => $ciudad,
+            ':pais' => $pais,
+            ':requiere' => $requiere
+        ]);
 
-    $mensaje = "Destino creado correctamente.";
+        $mensaje = "Destino creado correctamente.";
+    } else {
+        $mensaje = "Todos los campos son obligatorios.";
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -35,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li> <a href="index.php">Home</a></li>
             <li> <a href="registeruser.php">Registro</a></li>
             <li> <a href="login.php">Login</a></li>
-            <li> <a href="create_destination.php">Creación de Destino</a></li>
+            <li> <a href="crear_destino.php">Creación de Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
-            <li> <a href="#">Listados</a></li>
+            <li> <a href="listado_destinos.php">Listados</a></li>
         </ul>
     </nav>
 
