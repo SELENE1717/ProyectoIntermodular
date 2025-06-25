@@ -20,12 +20,14 @@
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.html">Home</a></li>
-                    <li> <a href="registeruser.html">Registro</a></li>
-                    <li> <a href="login.html">Login</a></li>
-                    <li> <a href="create_destination.php">Creación de Destino</a></li>
-                    <li> <a href="registerguide.html">Creación de Guías</a></li>
-                    <li> <a href="falta el link">Listados</a></li>
+            <li> <a href="index.php">Home</a></li>
+            <li> <a href="registeruser.php">Registro</a></li>
+            <li> <a href="login.php">Login</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
+            <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
                 </ul>
             </nav>
         
