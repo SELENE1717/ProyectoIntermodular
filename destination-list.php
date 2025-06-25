@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include 'database.php';
@@ -13,6 +14,9 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Listado de Destinos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/listado.css"> <!-- Nueva hoja para este listado -->
 </head>
@@ -29,9 +33,10 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
             <li> <a href="index.php">Home</a></li>
             <li> <a href="registeruser.php">Registro</a></li>
             <li> <a href="login.php">Login</a></li>
-            <li> <a href="create_destination.php">Creación de Destino</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
-            <li> <a href="listado_destinos.php">Listados</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
         </ul>
     </nav>
 
@@ -60,10 +65,6 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </section>
     </div>
-</div>
-</body>
-</html>
-
 </div>
 </body>
 </html>
