@@ -1,0 +1,43 @@
+#listado-destinos {
+    font-family: 'Roboto', sans-serif;
+}
+
+#listado-destinos h2 {
+    text-transform: uppercase;
+    color: #305c87;
+    margin-bottom: 20px;
+}
+
+.tabla-destinos {
+    overflow-x: auto;
+    background-color: #fbfcfc;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.tabla-destinos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.tabla-destinos th,
+.tabla-destinos td {
+    border: 1px solid #ccc;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.tabla-destinos th {
+    background-color: #51a6fc;
+    color: white;
+    text-transform: uppercase;
+}
+
+.tabla-destinos tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tabla-destinos tr:hover {
+    background-color: #e0f0ff;
+}
