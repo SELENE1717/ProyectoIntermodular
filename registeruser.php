@@ -133,12 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.php">Home</a></li>
-                    <li> <a href="registeruser.php">Registro</a></li>
-                    <li> <a href="login.php">Login</a></li>
-                    <li> <a href="create_destination.php">Creación de Destino</a></li>
-                    <li> <a href="registerguide.php">Creación de Guías</a></li>
-                    <li> <a href="falta el link">Listados</a></li>
+            <li> <a href="index.php">Home</a></li>
+            <li> <a href="registeruser.php">Registro</a></li>
+            <li> <a href="login.php">Login</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
+            <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
                 </ul>
             </nav>
         
@@ -279,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 esvalido = false;
                 error_numpass.textContent = "Debe indicar el número de pasaporte.";
             }
-            if (fecha_expedicion.value.trim() === '') {
+            if (fechaexpedicion.value.trim() === '') {
                 esvalido = false;
                 error_fechaex.textContent = "Debe indicar la fecha de expedición."; //esto estaba mal puesto lo he arreglado
             }
@@ -308,5 +310,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </body>
 </html>
-
 
