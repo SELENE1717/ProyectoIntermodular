@@ -33,7 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Suscribirse a Destino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
 </head>
 <body>
 <div class="container">
@@ -48,9 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li> <a href="index.php">Home</a></li>
             <li> <a href="registeruser.php">Registro</a></li>
             <li> <a href="login.php">Login</a></li>
-            <li> <a href="crear_destino.php">Creación de Destino</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
-            <li> <a href="listado_destinos.php">Listados</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
         </ul>
     </nav>
 
@@ -89,3 +95,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 </body>
 </html>
+
