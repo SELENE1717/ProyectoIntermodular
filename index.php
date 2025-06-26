@@ -28,6 +28,7 @@
             <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
             <li> <a href="destination-list.php">Nuestros Destinos</a></li>
             <li> <a href="user-list.php">Listado de usuarios</a></li>
+            <li> <a href="logout.php">Logout</a></li>
                 </ul>
             </nav>
         
