@@ -19,13 +19,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_usuario = $_POST['id_usuario'];
     $id_destino = $_POST['id_destino'];
 
-    $stmt = $pdo->prepare("INSERT INTO SE_SUSCRIBE (id_usuario, id_destino) VALUES (:id_usuario, :id_destino)");
-    $stmt->execute([
-        ':id_usuario' => $id_usuario,
-        ':id_destino' => $id_destino
-    ]);
+    // Verificar si el destino requiere pasaporte --> en el enunciado ponía que había que validar si el usuario tenia pasaporte
+    //se me habia pasado hacerlo, por eso agrando el codigo
+    $stmt = $pdo->prepare("SELECT requiere_pasaporte FROM DESTINO WHERE id_destino = ?");
+    $stmt->execute([$id_destino]);
+    $requiere_pasaporte = $stmt->fetchColumn();
 
-    $mensaje = "Suscripción registrada correctamente.";
+    if ($requiere_pasaporte) {
+        // Verificar si el usuario tiene pasaporte 
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM PASAPORTE WHERE id_usuario = ?"); //aqui busca el pasaporte segun el id_usuario que busque en el select
+        $stmt->execute([$id_usuario]);
+        $tiene_pasaporte = $stmt->fetchColumn();
+
+        if ($tiene_pasaporte == 0) {
+            $mensaje = "Este destino requiere pasaporte"; //sale verde el mensaje pero creo que no pasa nada aunque sea un error
+            //asi reeutilizamos codigo
+        } else {
+            // Insertar suscripción
+            $stmt = $pdo->prepare("INSERT INTO SE_SUSCRIBE (id_usuario, id_destino) VALUES (:id_usuario, :id_destino)"); //si todo va bien se suscribe
+            $stmt->execute([
+                ':id_usuario' => $id_usuario,
+                ':id_destino' => $id_destino
+            ]);
+            $mensaje = "Suscripción registrada correctamente.";
+        }
+    } else {
+        // Insertar suscripción si no se requiere pasaporte
+        $stmt = $pdo->prepare("INSERT INTO SE_SUSCRIBE (id_usuario, id_destino) VALUES (:id_usuario, :id_destino)");
+        $stmt->execute([
+            ':id_usuario' => $id_usuario,
+            ':id_destino' => $id_destino
+        ]);
+        $mensaje = "Suscripción registrada correctamente.";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -57,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
             <li> <a href="destination-list.php">Nuestros Destinos</a></li>
             <li> <a href="user-list.php">Listado de usuarios</a></li>
-            <li> <a href="logout.php">Logout</a></li>
         </ul>
     </nav>
 
@@ -96,4 +121,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 </body>
 </html>
-
