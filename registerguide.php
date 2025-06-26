@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($nombre)) {
         $errors[] = "Debe completar el nombre";
     }
-
+//VALIDACION ERRORES
     if (empty($apellidos)) {
         $errors[] = "Debe completar los apellidos";
     }
@@ -28,11 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 $destino_nombre = trim($_POST['destino'] ?? '');
 
+    //SI ESTÁ LIMPIO DE ERRORES SE PROCEDE A INSERTAR
 if (empty($destino_nombre)) {
     $errors[] = "Debe completar el destino";
 } else {
 
-    $stmt = $pdo->prepare("SELECT id_destino FROM DESTINOS WHERE nombre LIKE ?"); //como aun no henos hecho la parte php de destinos no sé si furula.
+    //BUSCA EL ID DEL DESTINO SEGUN LA CIUDAD ESCRITA
+    $stmt = $pdo->prepare("SELECT id_destino FROM DESTINO WHERE ciudad LIKE ?"); //como aun no henos hecho la parte php de destinos no sé si furula.
     $stmt->execute([$destino_nombre]);
     $destino_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -43,17 +45,19 @@ if (empty($destino_nombre)) {
     }
 }
 
-
+//INSERTA EL GUIA
     if (empty($errors)) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO GUIA (nombre, apellidos, especialidad)  VALUES (?, ?, ?, ?)");
-            $stmt->execute([$nombre, $apellidos, $especialidad, $id_destino]);
+            $stmt = $pdo->prepare("INSERT INTO GUIA (nombre, apellidos, especialidad)  VALUES (?, ?, ?)");
+            $stmt->execute([$nombre, $apellidos, $especialidad]);
 
+            $id_guia = $pdo->lastInsertId(); // esto es para obtener el id del guia si no no funciona
+//HACE LAS INSERCIONES EN LA TABLA DE SE_aSIGNA PARA QUE ASI SE MUESTRE LUEGO EN LA DE LISTADO DE DESTINOS
             $stmt = $pdo->prepare("INSERT INTO SE_ASIGNA (id_destino, id_guia) VALUES (?, ?)");
             $stmt->execute([$id_destino, $id_guia]);
 
             $_SESSION['success'] = "Guía registrado con éxito.";
-            header("Location: registerguide.html"); 
+            header("Location: destination-list.php"); 
             exit;
 
         } catch (Exception $e) {
@@ -198,3 +202,4 @@ if (empty($destino_nombre)) {
     </script>
 </body>
 </html>
+
