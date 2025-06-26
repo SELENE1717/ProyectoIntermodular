@@ -1,4 +1,36 @@
-<!DOCTYPE html>
+<?php
+session_start();
+include 'database.php';
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+
+    if (empty($email)) {
+        $errors[] = "Se debe completar el campo de email";
+    }
+
+    if (empty($password)) {
+        $errors[] = "Se debe completar el campo de contraseña";
+    }
+
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("SELECT * FROM USUARIOS WHERE email = ?");
+        $stmt->execute([$email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario && password_verify($password, $usuario['password'])) {
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            header("Location: index.php");
+            exit;
+        } else {
+            $errors[] = "El email o la contraseña no son correctos.";
+        }
+    }
+}
+?><!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +52,14 @@
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.html">Home</a></li>
-                    <li> <a href="registeruser.html">Registro</a></li>
-                    <li> <a href="registeruser.html">Login</a></li>
-                    <li> <a href="falta el link">Creación de Destino</a></li>
-                    <li> <a href="registerguide.html">Creación de Guías</a></li>
-                    <li> <a href="falta el link">Listados</a></li>
+            <li> <a href="index.php">Home</a></li>
+            <li> <a href="registeruser.php">Registro</a></li>
+            <li> <a href="login.php">Login</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
+            <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
                 </ul>
             </nav>
         
@@ -37,6 +71,13 @@
         <div class="main">
 
             <section id="Formularioguia">
+                <?php if (!empty($errors)): ?>
+                    <div class="alert alert-danger">
+                        <?php foreach ($errors as $error): ?>
+                            <p><?= htmlspecialchars($error) ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
                 <form action="#" method="post" id="formulario-login">
                     
                     <fieldset>
@@ -45,7 +86,7 @@
                          <input type="text" name="email" id="email"><br>
                          <div class="error" id="error-email"></div>
                          <label for="Contraseña">Contraseña</label>
-                         <input type="password" id="password" name="Contraseña"><br>
+                         <input type="password" id="password" name="password"><br>
                         <div class="error" id="error-password"></div>
                     </fieldset>
                     <button id="enviar">Iniciar sesión</button>
@@ -77,22 +118,23 @@
                 esvalido= false;
                 error_password.textContent = "Debe completar el campo de contraseña";
             }
+
+            return esvalido;
         }
 
 
 
          let enviar = document.getElementById('enviar');
-         let formulario_guia= document.getElementById('formulario-guia');
+         let formulario_login= document.getElementById('formulario-login');//esto lo tenia mal en el html y aqui lo he corregido
 
          enviar.addEventListener('click', e=>{
               e.preventDefault();
-            if (validar()){ //si el formulario es válido (true) lo manda
-                formulario_guia.submit();
+            if (validar()){ 
+                formulario_login.submit();//lo mismo aqui corregido.
 
             }
          });
 
     </script>
-    <!--Estaba pensando que igual tenemos que poner algún footer?-->
 </body>
 </html>

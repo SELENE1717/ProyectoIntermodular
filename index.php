@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <title>Página de inicio de Travel&Dream</title>
-    <link rel="stylesheet" href="Documentacion/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
@@ -20,12 +20,15 @@
                     <p id="titulo">Travelway</p>
                 </div>
                 <ul>
-                    <li> <a href="index.html">Home</a></li>
-                    <li> <a href="registeruser.html">Registro</a></li>
-                    <li> <a href="login.html">Login</a></li>
-                    <li> <a href="falta el link">Creación de Destino</a></li>
-                    <li> <a href="registerguide.html">Creación de Guías</a></li>
-                    <li> <a href="falta el link">Listados</a></li>
+            <li> <a href="index.php">Home</a></li>
+            <li> <a href="registeruser.php">Registro</a></li>
+            <li> <a href="login.php">Login</a></li>
+            <li> <a href="create_destination.php">Crear Destino</a></li>
+            <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
+            <li> <a href="destination-list.php">Nuestros Destinos</a></li>
+            <li> <a href="user-list.php">Listado de usuarios</a></li>
+            <li> <a href="logout.php">Logout</a></li>
                 </ul>
             </nav>
         
