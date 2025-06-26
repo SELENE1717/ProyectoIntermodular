@@ -48,6 +48,7 @@ $destinos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <li> <a href="login.php">Login</a></li>
             <li> <a href="create_destination.php">Crear Destino</a></li>
             <li> <a href="registerguide.php">Creación de Guías</a></li>
+            <li> <a href="subscribe_to_destination.php">Suscribirse a un destino</a></li>
             <li> <a href="destination-list.php">Nuestros Destinos</a></li>
             <li> <a href="user-list.php">Listado de usuarios</a></li>
             <li> <a href="logout.php">Logout</a></li>
