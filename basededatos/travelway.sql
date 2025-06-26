@@ -1,5 +1,3 @@
--- Crear base de datos
-CREATE DATABASE agencia_viajes;
 
 -- Borrar tablas en orden de dependencias inverso
 DROP TABLE IF EXISTS HACE_RESERVA;
@@ -62,8 +60,6 @@ CREATE TABLE HACE_RESERVA (
   id_reserva SERIAL PRIMARY KEY,
   id_usuario INT,
   id_destino INT,
-  fecha_reserva DATE,
-  fecha_viaje DATE,
   FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
   FOREIGN KEY (id_destino) REFERENCES DESTINO(id_destino)
 );
