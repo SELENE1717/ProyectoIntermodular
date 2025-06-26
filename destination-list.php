@@ -1,13 +1,26 @@
-
 <?php
 session_start();
 include 'database.php';
 
-// Obtener todos los destinos
-$destinos = [];
-$res = $pdo->query("SELECT ciudad, pais, requiere_pasaporte FROM DESTINO");
-$destinos = $res->fetchAll(PDO::FETCH_ASSOC);
+$sql = "
+SELECT 
+    d.id_destino,
+    d.ciudad,
+    d.pais,
+    d.requiere_pasaporte,
+    MAX(g.nombre) AS guia,
+    STRING_AGG(u.nombre, ', ' ORDER BY u.nombre) AS usuarios_suscritos
+FROM DESTINO d
+LEFT JOIN SE_ASIGNA sa ON sa.id_destino = d.id_destino
+LEFT JOIN GUIA g ON g.id_guia = sa.id_guia
+LEFT JOIN SE_SUSCRIBE s ON s.id_destino = d.id_destino
+LEFT JOIN USUARIOS u ON u.id_usuario = s.id_usuario
+GROUP BY d.id_destino, d.ciudad, d.pais, d.requiere_pasaporte
+ORDER BY d.pais, d.ciudad;
+";
 
+$stmt = $pdo->query($sql);
+$destinos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -37,6 +50,7 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
             <li> <a href="registerguide.php">Creación de Guías</a></li>
             <li> <a href="destination-list.php">Nuestros Destinos</a></li>
             <li> <a href="user-list.php">Listado de usuarios</a></li>
+            <li> <a href="logout.php">Logout</a></li>
         </ul>
     </nav>
 
@@ -53,14 +67,33 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($destinos as $d): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($d['ciudad']) ?></td>
-                                <td><?= htmlspecialchars($d['pais']) ?></td>
-                                <td><?= $d['requiere_pasaporte'] ? 'Sí' : 'No' ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+    <?php foreach ($destinos as $d): ?>
+        <tr>
+            <td><?= htmlspecialchars($d['ciudad']) ?></td>
+            <td><?= htmlspecialchars($d['pais']) ?></td>
+            <td><?= $d['requiere_pasaporte'] ? 'Sí' : 'No' ?></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+              <strong>Guía:</strong>
+                <?php if (!empty($d['guia'])): ?>
+                   <?= htmlspecialchars($d['guia']) ?>
+                <?php else: ?>
+                   <em>No hay guía asignado</em>
+                <?php endif; ?>              
+                
+                <strong>Usuarios suscritos:</strong>
+                   <?php if (!empty($d['usuarios_suscritos'])): ?>
+                       <?= htmlspecialchars($d['usuarios_suscritos']) ?>
+                   <?php else: ?>
+                       <em>No hay usuarios suscritos</em>
+                    <?php endif; ?>
+
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
                 </table>
             </div>
         </section>
@@ -68,3 +101,4 @@ $destinos = $res->fetchAll(PDO::FETCH_ASSOC);
 </div>
 </body>
 </html>
+
